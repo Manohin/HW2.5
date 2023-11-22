@@ -20,6 +20,7 @@ final class Cell: UITableViewCell {
     
     lazy var cellTextLabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
