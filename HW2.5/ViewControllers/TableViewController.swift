@@ -8,16 +8,15 @@
 import UIKit
 
 final class TableViewController: UITableViewController {
-    
     let movies = Movie.getUsers()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView = UITableView(frame: tableView.frame, style: .insetGrouped)
         title = "Список фильмов"
         navigationController?.navigationBar.prefersLargeTitles = true
         tableView.register(Cell.self, forCellReuseIdentifier: Cell.id)
         tableView.register(SecondCell.self, forCellReuseIdentifier: SecondCell.id)
-        tableView.separatorStyle = .none
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -66,6 +65,6 @@ final class TableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        indexPath.section == 0 ? 50 : 100
+        indexPath.section == 0 ? 60 : 96
     }
 }
