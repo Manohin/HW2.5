@@ -1,5 +1,5 @@
 //
-//  Cell.swift
+//  FirstCell.swift
 //  HW2.5
 //
 //  Created by Alexey Manokhin on 22.11.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class Cell: UITableViewCell {
+final class FirstCell: UITableViewCell {
     static let id = "cell"
     
     lazy var photoImageView = {

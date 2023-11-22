@@ -29,9 +29,9 @@ final class TableViewController: UITableViewController {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: Cell.id, for: indexPath
+                withIdentifier: FirstCell.id, for: indexPath
             )
-            guard let cell = cell as? Cell else { return UITableViewCell() }
+            guard let cell = cell as? FirstCell else { return UITableViewCell() }
             let movie = movies[indexPath.row]
             cell.cellTextLabel.text = movie.name
             cell.photoImageView.image = UIImage(named: movie.poster)
@@ -81,7 +81,7 @@ final class TableViewController: UITableViewController {
 private extension TableViewController {
     func registerCells() {
         tableView.register(
-            Cell.self, forCellReuseIdentifier: Cell.id)
+            FirstCell.self, forCellReuseIdentifier: FirstCell.id)
         tableView.register(
             SecondCell.self, forCellReuseIdentifier: SecondCell.id)
     }
