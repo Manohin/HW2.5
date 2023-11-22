@@ -17,6 +17,8 @@ final class TableViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         tableView.register(Cell.self, forCellReuseIdentifier: Cell.id)
         tableView.register(SecondCell.self, forCellReuseIdentifier: SecondCell.id)
+        //tableView.separatorStyle = .none
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
