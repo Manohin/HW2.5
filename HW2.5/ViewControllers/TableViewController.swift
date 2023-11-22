@@ -8,7 +8,7 @@
 import UIKit
 
 final class TableViewController: UITableViewController {
-    let movies = Movie.getUsers()
+    private let movies = Movie.getUsers()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,8 +75,8 @@ final class TableViewController: UITableViewController {
         let timer = Timer.scheduledTimer(
             withTimeInterval: 1,
             repeats: false) { [weak self] (timer) in
-            self?.present(alert, animated: true)
-        }
+                self?.present(alert, animated: true)
+            }
         RunLoop.current.add(timer, forMode: .common)
     }
     
