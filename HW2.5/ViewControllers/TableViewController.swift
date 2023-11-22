@@ -26,7 +26,6 @@ final class TableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(
@@ -42,9 +41,7 @@ final class TableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: SecondCell.id, for: indexPath
             )
-            guard let cell = cell as? SecondCell else {
-                return UITableViewCell()
-            }
+            guard let cell = cell as? SecondCell else { return UITableViewCell() }
             let movie = movies[indexPath.row]
             cell.cellTextLabel.text = movie.name
             cell.photoImageView.image = UIImage(named: movie.poster)
@@ -61,44 +58,54 @@ final class TableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        indexPath.section == 0 ? 60 : 96
+    }
+    
     @objc func buttonAction() {
-        let alert = UIAlertController(
+        let alert = getAlert(
             title: nil,
-            message: "Письмо отправлено",
+            message: "Письмо отправлено", 
             preferredStyle: .alert
+        )
+        
+        let timer = Timer.scheduledTimer(
+            withTimeInterval: 1,
+            repeats: false) { [weak self] timer in
+                self?.present(alert, animated: true)
+            }
+        RunLoop.current.add(timer, forMode: .common)
+    }
+}
+
+private extension TableViewController {
+    func registerCells() {
+        tableView.register(
+            Cell.self, forCellReuseIdentifier: Cell.id)
+        tableView.register(
+            SecondCell.self, forCellReuseIdentifier: SecondCell.id)
+    }
+    
+    func setupNavigationController() {
+        navigationController?.title = "Список фильмов"
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    func setInsetGroupedStyle() {
+        tableView = UITableView(frame: tableView.frame, style: .insetGrouped)
+    }
+    
+    func getAlert(title: String?, message: String, preferredStyle: UIAlertController.Style) -> UIAlertController {
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: preferredStyle
         )
         let action = UIAlertAction(
             title: "OK",
             style: .default
         )
         alert.addAction(action)
-        let timer = Timer.scheduledTimer(
-            withTimeInterval: 1,
-            repeats: false) { [weak self] (timer) in
-                self?.present(alert, animated: true)
-            }
-        RunLoop.current.add(timer, forMode: .common)
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        indexPath.section == 0 ? 60 : 96
-    }
-    
-    private func registerCells() {
-        tableView.register(
-            Cell.self, forCellReuseIdentifier: Cell.id
-        )
-        tableView.register(
-            SecondCell.self, forCellReuseIdentifier: SecondCell.id
-        )
-    }
-    
-    private func setupNavigationController() {
-        navigationController?.title = "Список фильмов"
-        navigationController?.navigationBar.prefersLargeTitles = true
-    }
-    
-    private func setInsetGroupedStyle() {
-        tableView = UITableView(frame: tableView.frame, style: .insetGrouped)
+        return alert
     }
 }

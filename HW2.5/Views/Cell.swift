@@ -8,7 +8,6 @@
 import UIKit
 
 final class Cell: UITableViewCell {
-    
     static let id = "cell"
     
     lazy var photoImageView = {
