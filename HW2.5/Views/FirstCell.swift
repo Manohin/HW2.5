@@ -64,4 +64,11 @@ final class FirstCell: UITableViewCell {
             secondCellTextLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
     }
+    
+    func configure(movie: Movie) -> UITableViewCell {
+        self.cellTextLabel.text = movie.name
+        self.photoImageView.image = UIImage(named: movie.poster)
+        self.secondCellTextLabel.text = movie.releaseDate
+        return self
+    }
 }

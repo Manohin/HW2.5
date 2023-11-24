@@ -12,6 +12,8 @@ final class SecondCell: UITableViewCell {
     
     static let id = "secondCell"
     
+    var buttonAction: (() -> Void)?
+    
     lazy var photoImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,10 +29,9 @@ final class SecondCell: UITableViewCell {
         return label
     }()
     
-    lazy var showDetailButton = {
-        let button = UIButton(
-            primaryAction: UIAction(
-                handler: { _ in }))
+    lazy var sendMessageButton = {
+        let button = UIButton()
+        button.setTitleColor(.systemBlue, for: .normal)
         button.setTitle("Написать", for: .normal)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -41,7 +42,7 @@ final class SecondCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         [photoImageView, 
          cellTextLabel,
-         showDetailButton].forEach{ addSubview($0) }
+         sendMessageButton].forEach{ addSubview($0) }
     }
     
     required init?(coder: NSCoder) {
@@ -55,6 +56,14 @@ final class SecondCell: UITableViewCell {
         photoImageView.layer.cornerRadius = photoImageView.bounds.width / 2
     }
     
+    func configure(movie: Movie, action: @escaping () -> Void) -> UITableViewCell {
+        cellTextLabel.text = movie.name
+        photoImageView.image = UIImage(named: movie.poster)
+        buttonAction = action
+        sendMessageButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        return self
+    }
+    
     private func setConstraints() {
         NSLayoutConstraint.activate([
             photoImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
@@ -65,11 +74,15 @@ final class SecondCell: UITableViewCell {
             cellTextLabel.leadingAnchor.constraint(equalTo: photoImageView.trailingAnchor, constant: 16),
             cellTextLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            showDetailButton.leadingAnchor.constraint(equalTo: cellTextLabel.trailingAnchor, constant: 16),
-            showDetailButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            showDetailButton.widthAnchor.constraint(equalToConstant: 80),
-            showDetailButton.heightAnchor.constraint(equalToConstant: 30),
-            showDetailButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+            sendMessageButton.leadingAnchor.constraint(equalTo: cellTextLabel.trailingAnchor, constant: 16),
+            sendMessageButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            sendMessageButton.widthAnchor.constraint(equalToConstant: 80),
+            sendMessageButton.heightAnchor.constraint(equalToConstant: 30),
+            sendMessageButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
     }
+    
+    @objc func buttonTapped() {
+           buttonAction?()
+       }
 }

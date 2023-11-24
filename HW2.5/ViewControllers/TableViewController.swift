@@ -33,24 +33,18 @@ final class TableViewController: UITableViewController {
             )
             guard let cell = cell as? FirstCell else { return UITableViewCell() }
             let movie = movies[indexPath.row]
-            cell.cellTextLabel.text = movie.name
-            cell.photoImageView.image = UIImage(named: movie.poster)
-            cell.secondCellTextLabel.text = movie.releaseDate
-            return cell
+            return cell.configure(movie: movie)
         default:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: SecondCell.id, for: indexPath
             )
             guard let cell = cell as? SecondCell else { return UITableViewCell() }
             let movie = movies[indexPath.row]
-            cell.cellTextLabel.text = movie.name
-            cell.photoImageView.image = UIImage(named: movie.poster)
-            cell.showDetailButton.addTarget(
-                self, action: #selector(buttonAction),
-                for: .touchUpInside
-            )
-            cell.contentView.addSubview(cell.showDetailButton)
-            return cell
+            view.addSubview(cell.sendMessageButton)
+            
+            return cell.configure(movie: movie, action: { [weak self] in
+                self?.buttonAction()
+            })
         }
     }
     
@@ -65,7 +59,7 @@ final class TableViewController: UITableViewController {
     @objc func buttonAction() {
         let alert = getAlert(
             title: nil,
-            message: "Письмо отправлено", 
+            message: "Письмо отправлено",
             preferredStyle: .alert
         )
         
@@ -87,7 +81,7 @@ private extension TableViewController {
     }
     
     func setupNavigationController() {
-        navigationController?.title = "Список фильмов"
+        title = "Список фильмов"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
